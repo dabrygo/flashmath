@@ -1,16 +1,12 @@
 import random
 
 def get_int(prompt):
-    try_again = True
-    result = None
-    while try_again:
+    while True:
         entry = input(prompt)
         try:
-            result = int(entry)
-            try_again = False
+            return int(entry)
         except ValueError:
            print('Invalid entry, try again')
-           try_again = True
     return result
 
 print('How many questions?')
