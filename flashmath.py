@@ -29,11 +29,13 @@ numbers = range(10)
 operators = ['+', '-', '*', '/']
 
 for i in range(n_questions):
+    # Choose problem operator
     if operator_type in [1, 2, 3, 4]:
         operator = operators[operator_type - 1]
     elif operator_type == 5:
         operator = random.choice(operators)
 
+    # Choose problem LHS
     if operator in ['+', '*']:
         a = random.choice(numbers)
         b = random.choice(numbers)
@@ -53,9 +55,13 @@ for i in range(n_questions):
         b = x if use_x else y
     else:
         raise NotImplementedError(f'Operator {operator} not yet supported')
+
+    # Prompt user
     problem = f'{a} {operator} {b}'
     print(problem + ' = ')
     guess = get_int('>>> ')
+
+    # Check if user correct
     answer = eval(problem)
     if guess == answer:
         print('Correct!')
