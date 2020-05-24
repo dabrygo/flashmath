@@ -16,8 +16,9 @@ print('1 Addition')
 print('2 Subtraction')
 print('3 Multiplication')
 print('4 Division')
+print('5 Random')
 operator_type = get_int('>>> ')
-if operator_type not in [1, 2, 3, 4]:
+if operator_type not in [1, 2, 3, 4, 5]:
     raise RuntimeError(f'No option for {operator_type}')
 
 # Prompt for questions
@@ -26,8 +27,13 @@ n_questions = get_int('>>> ')
 numbers = range(10)
 
 operators = ['+', '-', '*', '/']
-operator = operators[operator_type - 1]
+
 for i in range(n_questions):
+    if operator_type in [1, 2, 3, 4]:
+        operator = operators[operator_type - 1]
+    elif operator_type == 5:
+        operator = random.choice(operators)
+
     if operator in ['+', '*']:
         a = random.choice(numbers)
         b = random.choice(numbers)
