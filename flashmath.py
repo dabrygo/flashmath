@@ -42,8 +42,10 @@ for i in range(n_questions):
     elif operator == '-':
         x = random.choice(numbers)
         y = random.choice(numbers)
-        a = max(x, y)
-        b = min(x, y)
+        z = x + y
+        a = z
+        use_x = random.choice([0, 1])
+        b = x if use_x else y
     elif operator == '/':
         z = 0
         while z == 0:
