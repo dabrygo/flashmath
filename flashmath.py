@@ -47,13 +47,13 @@ for i in range(n_questions):
         b = x if use_x else y
     else:
         raise NotImplementedError(f'Operator {operator} not yet supported')
-    equation = f'{a} {operator} {b}'
-    print(equation + ' = ')
+    problem = f'{a} {operator} {b}'
+    print(problem + ' = ')
     guess = get_int('>>> ')
-    answer = eval(equation)
+    answer = eval(problem)
     if guess == answer:
         print('Correct!')
     else:
-        print(f'Incorrect. {a} + {b} = {answer}')
+        print(f'Incorrect. {problem} = {answer}')
 
 
