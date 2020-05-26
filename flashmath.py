@@ -1,5 +1,6 @@
-import abc
 import random
+import statistics
+import time
 
 def get_int(prompt):
     while True:
@@ -28,6 +29,7 @@ numbers = range(10)
 
 n_correct = 0
 operators = ['+', '-', '*', '/']
+times = []
 for i in range(n_problems):
     # Choose problem operator
     if operator_type in [1, 2, 3, 4]:
@@ -64,10 +66,15 @@ for i in range(n_problems):
     print(f"Correct: {n_correct}")
     problem = f'{a} {operator} {b}'
     print(problem + ' = ')
+    start = time.time()
     guess = get_int('>>> ')
+    stop = time.time()
 
     # Check if user correct
     answer = eval(problem)
+    dt = stop - start
+    times.append(dt)
+    print(f"Answered in {dt:0.2f} sec")
     if guess == answer:
         print('Correct!')
         n_correct += 1
@@ -78,5 +85,11 @@ for i in range(n_problems):
 print()
 print(f"You got {n_correct}/{n_problems} correct!")
 print(f"Your accuracy was {n_correct/n_problems * 100}%")
+print()
+
+print(f"Your response times:")
+print(f"  Median = {statistics.median(times):0.2f} seconds")
+print(f"  Mean = {statistics.mean(times):0.2f} seconds")
+print(f"  Total = {sum(times):0.2f} seconds")
 print()
 
