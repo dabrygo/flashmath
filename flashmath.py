@@ -63,11 +63,11 @@ def get_operands():
     return a, b
 
 n_correct = 0
+corrects = ddict(list)
 times = ddict(list)
 for i in range(n_problems):
     # Prompt user
     operator = get_operator()
-    operator_times = times[operator]
     a, b = get_operands()
     print()
     print(f"Problem {i}/{n_problems}")
@@ -80,25 +80,31 @@ for i in range(n_problems):
     guess = get_int('>>> ')
     stop = time.time()
     dt = stop - start
+    operator_times = times[operator]
     operator_times.append(dt)
 
     # Check if user correct
     answer = eval(problem)
     times[operator] = operator_times
     print(f"Answered in {dt:0.2f} sec")
+    operator_corrects = corrects[operator]
     if guess == answer:
         print('Correct!')
         n_correct += 1
+        operator_corrects.append(True)
     else:
         print(f'Incorrect. {problem} = {answer}')
+        operator_corrects.append(False)
+    corrects[operator] = operator_corrects
     print()
 
-print()
-print(f"You got {n_correct}/{n_problems} correct!")
-print(f"Your accuracy was {n_correct/n_problems * 100:0.2f}%")
-print()
+
 if operator_type in [1, 2, 3, 4]:
     operator = operators[operator_type - 1]
+    print()
+    print(f"You got {n_correct}/{n_problems} correct!")
+    print(f"Your accuracy was {n_correct/n_problems * 100:0.2f}%")
+    print()
 
     print(f"Your response times:")
     print(f"  Median = {statistics.median(times[operator]):0.2f} seconds")
@@ -106,6 +112,20 @@ if operator_type in [1, 2, 3, 4]:
     print(f"  Total = {sum(times[operator]):0.2f} seconds")
     print()
 elif operator_type == 5:
+    print()
+    print(f"You got {n_correct}/{n_problems} correct!")
+    print(f"Your accuracy was {n_correct/n_problems * 100:0.2f}%")
+    for operator in operators:
+        c = corrects[operator]
+        print(operator)
+        if c:
+            print(f"  Correct: {sum(c)}")
+            print(f"  Accuracy: {sum(c)/len(c) * 100:0.2f}%")
+            print(f"  Count = {len(c)} problems")
+        else:
+            print(f"  No data for {operator}")
+
+    print()
     print(f"Your response times:")
     for operator in operators:
         t = times[operator]
