@@ -28,15 +28,19 @@ print('How many problems?')
 n_problems = get_int('>>> ')
 numbers = range(10)
 
+def get_operator():
+    if operator_type in [1, 2, 3, 4]:
+        operator = operators[operator_type - 1]
+    elif operator_type == 5:
+        operator = random.choice(operators)
+    return operator
+
 n_correct = 0
 operators = ['+', '-', '*', '/']
 times = ddict(list)
 for i in range(n_problems):
     # Choose problem operator
-    if operator_type in [1, 2, 3, 4]:
-        operator = operators[operator_type - 1]
-    elif operator_type == 5:
-        operator = random.choice(operators)
+    operator = get_operator()
     operator_times = times[operator]
 
     # Choose problem LHS
@@ -111,6 +115,7 @@ elif operator_type == 5:
             print(f"  Median = {statistics.median(t):0.2f} seconds")
             print(f"  Mean = {statistics.mean(t):0.2f} seconds")
             print(f"  Total = {sum(t):0.2f} seconds")
+            print(f"  Count = {len(t)} problems")
         else:
             print(f"  No data for {operator}")
 
