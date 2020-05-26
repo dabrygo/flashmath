@@ -93,12 +93,12 @@ for i in range(n_problems):
         print(f'Incorrect. {problem} = {answer}')
     print()
 
+print()
+print(f"You got {n_correct}/{n_problems} correct!")
+print(f"Your accuracy was {n_correct/n_problems * 100:0.2f}%")
+print()
 if operator_type in [1, 2, 3, 4]:
     operator = operators[operator_type - 1]
-    print()
-    print(f"You got {n_correct}/{n_problems} correct!")
-    print(f"Your accuracy was {n_correct/n_problems * 100}%")
-    print()
 
     print(f"Your response times:")
     print(f"  Median = {statistics.median(times[operator]):0.2f} seconds")
@@ -106,11 +106,6 @@ if operator_type in [1, 2, 3, 4]:
     print(f"  Total = {sum(times[operator]):0.2f} seconds")
     print()
 elif operator_type == 5:
-    print()
-    print(f"You got {n_correct}/{n_problems} correct!")
-    print(f"Your accuracy was {n_correct/n_problems * 100}%")
-    print()
-
     print(f"Your response times:")
     for operator in operators:
         t = times[operator]
