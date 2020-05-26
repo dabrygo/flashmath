@@ -1,3 +1,4 @@
+from collections import defaultdict as ddict
 import random
 import statistics
 import time
@@ -29,13 +30,14 @@ numbers = range(10)
 
 n_correct = 0
 operators = ['+', '-', '*', '/']
-times = []
+times = ddict(list)
 for i in range(n_problems):
     # Choose problem operator
     if operator_type in [1, 2, 3, 4]:
         operator = operators[operator_type - 1]
     elif operator_type == 5:
         operator = random.choice(operators)
+    operator_times = times[operator]
 
     # Choose problem LHS
     if operator in ['+', '*']:
@@ -73,7 +75,8 @@ for i in range(n_problems):
     # Check if user correct
     answer = eval(problem)
     dt = stop - start
-    times.append(dt)
+    operator_times.append(dt)
+    times[operator] = operator_times
     print(f"Answered in {dt:0.2f} sec")
     if guess == answer:
         print('Correct!')
@@ -82,14 +85,32 @@ for i in range(n_problems):
         print(f'Incorrect. {problem} = {answer}')
     print()
 
-print()
-print(f"You got {n_correct}/{n_problems} correct!")
-print(f"Your accuracy was {n_correct/n_problems * 100}%")
-print()
+if operator_type in [1, 2, 3, 4]:
+    operator = operators[operator_type - 1]
+    print()
+    print(f"You got {n_correct}/{n_problems} correct!")
+    print(f"Your accuracy was {n_correct/n_problems * 100}%")
+    print()
 
-print(f"Your response times:")
-print(f"  Median = {statistics.median(times):0.2f} seconds")
-print(f"  Mean = {statistics.mean(times):0.2f} seconds")
-print(f"  Total = {sum(times):0.2f} seconds")
-print()
+    print(f"Your response times:")
+    print(f"  Median = {statistics.median(times[operator]):0.2f} seconds")
+    print(f"  Mean = {statistics.mean(times[operator]):0.2f} seconds")
+    print(f"  Total = {sum(times[operator]):0.2f} seconds")
+    print()
+elif operator_type == 5:
+    print()
+    print(f"You got {n_correct}/{n_problems} correct!")
+    print(f"Your accuracy was {n_correct/n_problems * 100}%")
+    print()
+
+    print(f"Your response times:")
+    for operator in operators:
+        t = times[operator]
+        print(operator)
+        if t:
+            print(f"  Median = {statistics.median(t):0.2f} seconds")
+            print(f"  Mean = {statistics.mean(t):0.2f} seconds")
+            print(f"  Total = {sum(t):0.2f} seconds")
+        else:
+            print(f"  No data for {operator}")
 
