@@ -28,22 +28,17 @@ print('How many problems?')
 n_problems = get_int('>>> ')
 numbers = range(10)
 
+operators = ['+', '-', '*', '/']
 def get_operator():
+    '''Choose problem operator'''
     if operator_type in [1, 2, 3, 4]:
         operator = operators[operator_type - 1]
     elif operator_type == 5:
         operator = random.choice(operators)
     return operator
 
-n_correct = 0
-operators = ['+', '-', '*', '/']
-times = ddict(list)
-for i in range(n_problems):
-    # Choose problem operator
-    operator = get_operator()
-    operator_times = times[operator]
-
-    # Choose problem LHS
+def get_operands():
+    '''Choose problem LHS'''
     if operator in ['+', '*']:
         a = random.choice(numbers)
         b = random.choice(numbers)
@@ -65,21 +60,30 @@ for i in range(n_problems):
         b = x if use_x else y
     else:
         raise NotImplementedError(f'Operator {operator} not yet supported')
+    return a, b
 
+n_correct = 0
+times = ddict(list)
+for i in range(n_problems):
     # Prompt user
+    operator = get_operator()
+    operator_times = times[operator]
+    a, b = get_operands()
     print()
     print(f"Problem {i}/{n_problems}")
     print(f"Correct: {n_correct}")
     problem = f'{a} {operator} {b}'
     print(problem + ' = ')
+
+    # Time user for response
     start = time.time()
     guess = get_int('>>> ')
     stop = time.time()
+    dt = stop - start
+    operator_times.append(dt)
 
     # Check if user correct
     answer = eval(problem)
-    dt = stop - start
-    operator_times.append(dt)
     times[operator] = operator_times
     print(f"Answered in {dt:0.2f} sec")
     if guess == answer:
