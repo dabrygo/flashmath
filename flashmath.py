@@ -26,7 +26,11 @@ if operator_type not in [1, 2, 3, 4, 5]:
 # Prompt for problems
 print('How many problems?')
 n_problems = get_int('>>> ')
-numbers = range(10)
+
+# Prompt for maximum number
+print('Highest number?')
+max_number = get_int('>>> ')
+numbers = range(max_number)
 
 operators = ['+', '-', '*', '/']
 def get_operator():
