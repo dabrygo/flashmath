@@ -99,6 +99,7 @@ for i in range(n_problems):
     else:
         print(f'Incorrect. {problem} = {answer}')
         operator_corrects.append(False)
+        input("Press ENTER to continue\n")
     corrects[operator] = operator_corrects
     print()
 
