@@ -1,4 +1,6 @@
 from collections import defaultdict as ddict
+import matplotlib.pyplot as plt
+import numpy as np
 import random
 import statistics
 import time
@@ -111,11 +113,10 @@ if operator_type in [1, 2, 3, 4]:
     print(f"Your accuracy was {n_correct/n_problems * 100:0.2f}%")
     print()
 
-    print(f"Your response times:")
-    print(f"  Median = {statistics.median(times[operator]):0.2f} seconds")
-    print(f"  Mean = {statistics.mean(times[operator]):0.2f} seconds")
-    print(f"  Total = {sum(times[operator]):0.2f} seconds")
-    print()
+    plt.hist(times[operator])
+    plt.xlabel("Time (s)")
+    plt.ylabel("Count")
+    plt.show()
 elif operator_type == 5:
     print()
     print(f"You got {n_correct}/{n_problems} correct!")
@@ -130,16 +131,18 @@ elif operator_type == 5:
         else:
             print(f"  No data for {operator}")
 
-    print()
-    print(f"Your response times:")
-    for operator in operators:
+    colors = ['red', 'orange', 'yellow', 'blue']
+    fig, axes = plt.subplots(2, 2)
+    plt.suptitle("Times")
+    for i, operator in enumerate(operators):
         t = times[operator]
-        print(operator)
-        if t:
-            print(f"  Median = {statistics.median(t):0.2f} seconds")
-            print(f"  Mean = {statistics.mean(t):0.2f} seconds")
-            print(f"  Total = {sum(t):0.2f} seconds")
-            print(f"  Count = {len(t)} problems")
-        else:
-            print(f"  No data for {operator}")
+        row = i // 2
+        col = i % 2
+        ax = axes[row, col]
+        ax.hist(t, color=colors[i])
+        ax.set_title(f'{operator} ({len(t)} Problems)')
+        ax.set(xlabel='Time (s)', ylabel='Count')
+    plt.xlabel("Time (s)")
+    plt.ylabel("Count")
+    plt.show()
 
